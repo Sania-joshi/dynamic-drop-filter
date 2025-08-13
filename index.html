@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dynamic Product Filter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  .product-list {
+    border: 1px solid #888;
+    padding: 10px;
+    margin-bottom: 20px;
+    max-width: 300px;
+  }
+  .product-item {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin: 5px 0;
+    border-radius: 3px;
+  }
+  label {
+    font-weight: bold;
+  }
+  select {
+    margin-left: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h3>Product List</h3>
+
+<label for="categoryFilter">Filter by Category:</label>
+<select id="categoryFilter">
+  <option value="All">All</option>
+  <option value="Clothing">Clothing</option>
+  <option value="Electronics">Electronics</option>
+  <option value="Books">Books</option>
+</select>
+
+<div id="productList" class="product-list"></div>
+
+<script>
+  // Sample product data with category
+  const products = [
+    { name: 'T-Shirt', category: 'Clothing' },
+    { name: 'Jeans', category: 'Clothing' },
+    { name: 'Headphones', category: 'Electronics' },
+    { name: 'Smartphone', category: 'Electronics' },
+    { name: 'Novel', category: 'Books' },
+    { name: 'Cookbook', category: 'Books' },
+  ];
+
+  const categoryFilter = document.getElementById('categoryFilter');
+  const productList = document.getElementById('productList');
+
+  // Function to render product list based on selected category
+  function renderProducts() {
+    const selectedCategory = categoryFilter.value;
+    productList.innerHTML = ''; // Clear previous list
+
+    // Filter products based on selected category or show all if "All"
+    const filteredProducts = selectedCategory === 'All' 
+      ? products 
+      : products.filter(p => p.category === selectedCategory);
+
+    // If no products match, show a message
+    if (filteredProducts.length === 0) {
+      productList.innerHTML = '<p>No products found in this category.</p>';
+      return;
+    }
+
+    // Create and append product items
+    filteredProducts.forEach(product => {
+      const div = document.createElement('div');
+      div.className = 'product-item';
+      div.textContent = product.name;
+      productList.appendChild(div);
+    });
+  }
+
+  // Listen for dropdown changes
+  categoryFilter.addEventListener('change', renderProducts);
+
+  // Initial render with all products
+  renderProducts();
+</script>
+
+</body>
+</html>
